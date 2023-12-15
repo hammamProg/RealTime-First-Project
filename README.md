@@ -1,6 +1,6 @@
 # Project #1: Interprocess communication techniques under Linux
 
-[![Watch the video]](video/demo.mp4)
+[![Watch the video]](video/run_view.mov)
 
 ## 🚀 Description
 
