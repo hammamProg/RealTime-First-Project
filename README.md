@@ -17,10 +17,9 @@ This project is our first one in the RealTime
 This project is specifically designed to work on Mac. Follow the steps below to install:
 
 1. **Step 1**
-   ```bash```
+   ``` ```
 2. **Step 2**
-    # Instructions for the second step
-
+    ``` ```
 
 ## 📝 License
 
