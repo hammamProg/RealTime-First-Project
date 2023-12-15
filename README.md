@@ -21,10 +21,6 @@ This project is specifically designed to work on Mac. Follow the steps below to 
 2. **Step 2**
     ``` ```
 
-## 📝 License
-
-This project is licensed under the [Your License Name](link-to-license-file).
-
 ---
 
 **Feel free to ⭐️ this repository if you find it helpful!**
