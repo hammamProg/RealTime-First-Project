@@ -1,6 +1,6 @@
 # Project #1: Interprocess communication techniques under Linux
 
-[![Demo](demo-link)](demo-link)
+[![Watch the video]](video/demo.mp4)
 
 ## 🚀 Description
 
