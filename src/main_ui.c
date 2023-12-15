@@ -78,7 +78,6 @@ int main(int argc, char** argv) {
     // destroySharedMemory(shmid);
     // destroySharedMemory(shmid_current);
     initializeOpenGL(argc, argv);
-    printf("after initializeOpenGL\n");
     // Cleanup
     
     

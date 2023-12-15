@@ -465,7 +465,7 @@ void move_index_x_y_delay(int index, float x, float y, int sleep_amount) {
     sharedMemory[index].y = y;
     // printf("(take semaphore done)\n");
 
-    printf("new customer%d (%f,%f)\n",index,sharedMemory[index].x,sharedMemory[index].y);
+    // printf("new customer%d (%f,%f)\n",index,sharedMemory[index].x,sharedMemory[index].y);
     sleep(sleep_amount);
 }
 

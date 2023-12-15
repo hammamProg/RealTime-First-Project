@@ -141,10 +141,11 @@ int main(int argc, char *argv[])
             perror("Signal sending failed");
             exit(EXIT_FAILURE);
         }
-
         //! Leave the simulation frame
-        move_index_x_y_delay(customer_number, 100, -140, 0);       
-        detachSharedMemory(sharedMemory);
+        move_index_x_y_delay(customer_number, 100, -140, 0); 
+        sleep(7);
+        move_index_x_y_delay(customer_number, 200, -140, 0); 
+        sleep(7);
     }
     
     // printf("Customer%d Leave ->\n",customer_number);

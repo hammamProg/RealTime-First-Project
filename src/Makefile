@@ -1,4 +1,4 @@
-CFLAGS  = -Wall -Wextra -std=c99
+CFLAGS  = -Wall -Wextra -std=c99 -w
 LDFLAGS = -lpthread -framework OpenGL -framework GLUT -DGL_SILENCE_DEPRECATION
 
 BIN_DIR = bin

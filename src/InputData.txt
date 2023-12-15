@@ -7,5 +7,5 @@ scanning_time_max = 12
 customer_impatience_threshold = 15
 cashier_behavior_degradation_threshold = 10
 supermarket_income_threshold = 400
-numberOfCashiers = 4
-numberOfCustomers = 12
+numberOfCashiers = 3
+numberOfCustomers = 8
