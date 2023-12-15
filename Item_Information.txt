@@ -1,0 +1,12 @@
+PSBread, quantity=50, price=2
+PSMilk, quantity=40, price=3
+PSBanana, quantity=60, price=4
+PSTea, quantity=40, price=5
+PSJuice, quantity=20, price=6
+PSCoffee, quantity=12, price=7
+PSSweet, quantity=14, price=8
+PSNuts, quantity=66, price=9
+PSMeat, quantity=74, price=10
+PSChickens, quantity=61, price=11
+PSOil, quantity=25, price=12
+PSCleaningPowders, quantity=78, price=13

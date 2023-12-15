@@ -1,0 +1,64 @@
+# Compiled binaries
+*.o
+*.out
+
+# Object files
+*.obj
+
+# Libraries
+*.lib
+*.dll
+*.a
+*.so
+
+# Executables
+*.exe
+*.app
+
+# Temporary files
+*~
+
+# macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xcworkspace
+!default.xcworkspace
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Sublime Text
+.sublime-project
+.sublime-workspace
+.svn/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs and databases
+*.log
+*.sqlite
+*.sqlite3
+*.db
+*.sql
