@@ -138,10 +138,6 @@ int readItemsFromFile(int maxItems)
 
     fclose(file);
 
-    // for(int i=0; i< MAX_NUM_ITEMS; i++){
-    //     printf("item: quantity\t[%d] price\t[%d]\n",shm_items[i].quantity, shm_items[i].price);
-    // }
-
     detachSharedMemory(shm_items);
 
     if (index < maxItems)
