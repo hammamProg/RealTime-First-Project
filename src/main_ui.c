@@ -8,11 +8,8 @@ Point *current_Points;
 
 int main(int argc, char** argv) {  
     readInputDataFromFile();
-    printf("anumberOfCustomers: %d",anumberOfCustomers);
-
     // !==================================== Semaphore for the sharedMemory ====================================
     sem_t *semaphore = sem_open(SEM_KEY_ITEMS, O_CREAT, 0666, 1);
-
     // !================================ current_Points ============================================
     int shmid_current = createSharedMemory(sizeof(Point)*anumberOfCustomers, SHM_KEY_CUSTOMERS_UI_current); // Create shared memory segment
     if (shmid_current == -1)
@@ -55,31 +52,13 @@ int main(int argc, char** argv) {
     }
     
 
-    // sem_wait(semaphore);
-
-    printf("..... initialize sharedMemory\n");
+    // For initialize the values of the shared memory
     for(int i=0;i<anumberOfCustomers;i++){
-        // For initialize the values of the shared memory
         sharedMemory[i].x= -180;
         sharedMemory[i].y= -50;
         sharedMemory[i].index=i;
     }
-    // sem_post(semaphore);
-    // detachSharedMemory(sharedMemory);
-
-
-    // for(int i=0;i<anumberOfCustomers;i++){
-    //     printf("init sharedMemory[%d].(x=%d,y=%d)\n",i,sharedMemory[i].x,i,sharedMemory[i].y);
-    // }
-    //     for(int i=0;i<anumberOfCustomers;i++){
-    //     printf("init current_Points[%d].(x=%d,y=%d)\n",i,current_Points[i].x,i,current_Points[i].y);
-    // }
-
-    // destroySharedMemory(shmid);
-    // destroySharedMemory(shmid_current);
     initializeOpenGL(argc, argv);
-    // Cleanup
-    
-    
+
     return 0;
 }

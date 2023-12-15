@@ -13,6 +13,7 @@ volatile int impatient_customers_count = 0;  // Counter to be incremented in the
 volatile int cashiers_behaivs_0_count = 0;  
 volatile bool one_cashier_income_threshold = false;  
 volatile int num_success_customers = 0;  
+volatile bool left_cashiers = true;  
 
 // Signal handler function
 void signalHandler(int signum) {
@@ -41,6 +42,13 @@ void signal4Handler(int signum) {
         printf("\n\n\n++ num_success_customers!\n");
     }
 }
+void signal5Handler(int signum) {
+    if (signum == SIGVTALRM) {
+        left_cashiers=false;
+        printf("\n\n\n No Cashiers Left\n");
+    }
+}
+
 
 int main()
 {
@@ -58,6 +66,10 @@ int main()
         exit(EXIT_FAILURE);
     }
     if (signal(SIGALRM, signal4Handler) == SIG_ERR) {
+        perror("Signal registration failed");
+        exit(EXIT_FAILURE);
+    }
+    if (signal(SIGVTALRM, signal4Handler) == SIG_ERR) {
         perror("Signal registration failed");
         exit(EXIT_FAILURE);
     }
@@ -158,24 +170,29 @@ int main()
     while (1)
     {
         // END simulation condition:
-        if(impatient_customers_count > END_SIMULATION_CUSTOMER_IMPATIONCE_THRESHOLD){
-            printf("End simulation condition: impatient_customers_count\n");
+        if(impatient_customers_count >= END_SIMULATION_CUSTOMER_IMPATIONCE_THRESHOLD){
+            printf("END simulation condition: impatient_customers_count\n");
             break;
         }
-        if(cashiers_behaivs_0_count > END_SIMULATION_CASHIER_DROP_THRESHOLD){
-            printf("End simulation condition: cashiers_behaivs_0_count\n");
+        if(cashiers_behaivs_0_count >= END_SIMULATION_CASHIER_DROP_THRESHOLD){
+            printf("END simulation condition: cashiers_behaivs_0_count\n");
             break;
         }
         if(one_cashier_income_threshold){
-            printf("End simulation condition: one_cashier_income_threshold\n");
+            printf("END simulation condition: one_cashier_income_threshold\n");
             break;
         }
         if(num_success_customers == anumberOfCustomers){
-            printf("End simulation condition: all customer finished successfully\n");
+            printf("END simulation condition: all customer finished successfully\n");
             break;
         }
+        if(!left_cashiers){
+            printf("END simulation condition: No Cashies Left\n");
+            break;
+        }
+
     }
-    
+
 
     for (int i = 0; i < anumberOfCustomers; i++)
         kill(customer_pids[i], 9);

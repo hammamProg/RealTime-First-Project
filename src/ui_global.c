@@ -375,6 +375,7 @@ void drawAllCustomers() {
     }
 }
 
+
 void initializeOpenGL(int argc, char** argv) {
     // Initialize OpenGL context and window
     glutInit(&argc, argv);

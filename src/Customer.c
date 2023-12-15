@@ -6,6 +6,8 @@
 bool isChosen(ChosenItem chosenItems[], int chosenCount, char itemName[]);
 void chooseRandomItems(int msqids[], int cnum, int chossen_cashier);
 void DisplayCustomerData();
+int chooseBestCashier(CashierData* cashierData);
+bool anyCashierAvailable(CashierData* cashierData);
 
 #define SEM_NAME "/quantity"
 
@@ -67,25 +69,40 @@ int main(int argc, char *argv[])
     while (1) {        
         
         move_index_x_y_delay(customer_number, 0, -60, 0);//! go to the enter
-        // while(is_sharedMemory_equal_current_Points()!=true);
+
         sleep(10); //! Needed time from Enter to reach center
         move_index_x_y_delay(customer_number, 0, 0, 0); //! go to shopping area
         sleep(2);
 
         int shopping_time = random_range(ashopping_time_min, ashopping_time_max);
+        printf("customer%d shopping time: %d ==========\n", customer_number, shopping_time); // testing
         sleep(shopping_time); //! shopping time
 
-        chossen_cashier = random_range_with_randomness(0, anumberOfCashiers-1, i++);//! choose a cashier
+        if (!anyCashierAvailable(cashierData)) {    //! check if any cashier is available
+            printf("!!! (No cashiers left)\n", customer_number);
+
+            //! Leave the simulation frame
+            move_index_x_y_delay(customer_number, 100, -140, 0); 
+            sleep(7);
+            move_index_x_y_delay(customer_number, 200, -140, 0); 
+            sleep(7);
+
+            // Success Signal to main.c -> no cashiers left
+            if (kill(getppid(), SIGVTALRM) == -1) {
+                perror("Signal SIGVTALRM sending failed");
+                exit(EXIT_FAILURE);
+            }
+            exit(0);
+        }
+
+        chossen_cashier = chooseBestCashier(cashierData);//! choose a cashier
 
         int cashier_queue_size = cashierData[chossen_cashier]->number_of_served_customers;
         move_index_x_y_delay(customer_number, 125, -20*(chossen_cashier+1), 0); //! go to the cashier
 
-        printf("customer%d to cashier%d\n------------------------------------------------------\n", customer_number, chossen_cashier); // testing
-        
+        printf("customer%d to cashier%d\n------------------------------------------------------\n", customer_number, chossen_cashier); // testing      
         
         sleep(8); //! time to go to the cashier 
-        
-        
 
         fflush(stdout);
 
@@ -95,14 +112,17 @@ int main(int argc, char *argv[])
             [] if customer wait more than patient_threshold in queue -> leave the queue + leave simulation + increment the customers_leave_impatiently
             [x]: if Cashier drop behaivoral under behaivoral_threshold -> (continue)
         */
-        start = clock();
+        
         bool check_if_cashier_behaivor_drop = false;
+        start = clock();
         while (cashierData[chossen_cashier]->client_being_served != customer_number){
+            
             end = clock();
             cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-            if(cpu_time_used > acustomer_impatience_threshold || total_waiting > acustomer_impatience_threshold){
-                printf("!!!customer%d left the queue(impatient!!!)\n", customer_number);
-                // strcpy(sharedMemory[customer_number].color, "notOrange");
+            total_waiting += cpu_time_used;
+            if(total_waiting > acustomer_impatience_threshold){
+                printf("!!! customer%d left the queue(impatient) !!!\n", customer_number);
+
                 //! Leave the simulation frame
                 move_index_x_y_delay(customer_number, 100, -140, 0); 
                 sleep(7);
@@ -116,18 +136,19 @@ int main(int argc, char *argv[])
                 }
 
                 // give signal that you customer
-                return 0;
+                exit(0);
             }
 
             if(cashierData[chossen_cashier]->cashier_behavior <= 0){
                 check_if_cashier_behaivor_drop = true;
-                total_waiting += cpu_time_used;
+                
                 continue;
             }
             if (check_if_cashier_behaivor_drop){
                 break;
             }
         } // wait my turn
+        
         if (check_if_cashier_behaivor_drop){
             continue;
         }
@@ -203,7 +224,7 @@ void chooseRandomItems(int msqids[], int cnum, int chossen_cashier)
     
     int chosenCount = 0;
     int attempts = 0; // Track attempts to avoid infinite loops
-    //! ================================ Semaphore ============================================
+
     sem_t *semaphore = sem_open(SEM_NAME, O_CREAT, 0666, 1); // Open or create a named semaphore
     while (totalQuantityChosen < Max_num_quantity && chosenCount < x && attempts < x)
     {
@@ -295,4 +316,32 @@ void chooseRandomItems(int msqids[], int cnum, int chossen_cashier)
     }
 
     free(chosenItems);
+}
+
+int chooseBestCashier(CashierData* cashierData) {
+    int bestCashierIndex = -1;
+    int minQueueSize = INT_MAX;
+    int minScanningTime = INT_MAX;
+
+    for (int i = 0; i < anumberOfCashiers; i++) {
+        if (cashierData[i].cashier_availability) {
+            // Check queue size, scanning time, and any other factors
+            if (cashierData[i].timeToFinishTheQueue < minQueueSize ||
+                (cashierData[i].timeToFinishTheQueue == minQueueSize && cashierData[i].timeToFinishTheQueue < minScanningTime)) {
+                minQueueSize = cashierData[i].timeToFinishTheQueue;
+                minScanningTime = cashierData[i].timeToFinishTheQueue;
+                bestCashierIndex = i;
+            }
+        }
+    }
+    return bestCashierIndex;
+}
+
+bool anyCashierAvailable(CashierData* cashierData) {
+    for (int i = 0; i < anumberOfCashiers; i++) {
+        if (cashierData[i].cashier_availability) {
+            return true;  // At least one cashier is available
+        }
+    }
+    return false;  // No available cashier found
 }
