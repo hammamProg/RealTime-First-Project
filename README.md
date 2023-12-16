@@ -8,7 +8,9 @@ https://github.com/hammamProg/RealTime-First-Project/assets/65830885/9a61e1b3-b5
 
 ## 🚀 Description
 
-This project is our first one in the RealTime 
+This project is our first one in the RealTime, in this project we utilize our knowledge in IPC (interprocess communication techniques) to make a supermarket simulation which is represent a multi processing system, in the following figure we try to explain the relationship between the processes.  
+
+![IPC system description](images/descriped_work.jpg)
 
 ## 👥 Team Members
 
