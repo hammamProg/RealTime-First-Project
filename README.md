@@ -21,9 +21,16 @@ This project is our first one in the RealTime
 This project is specifically designed to work on Mac. Follow the steps below to install:
 
 1. **Step 1**
-   ``` ```
-2. **Step 2**
-    ``` ```
+   ```bash
+    # Clone the repository
+    git clone https://github.com/hammamProg/RealTime-First-Project
+
+    # Navigate to the src/ directory
+    cd RealTime-First-Project/src/
+
+    # Run make all
+    make all
+
 
 ---
 
